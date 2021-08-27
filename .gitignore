@@ -4,3 +4,6 @@
 *.crf
 MDK-ARM/STM32F4-ReadLine/
 *.MrCrazy
+MDK-ARM/JLinkLog.txt
+MDK-ARM/JLinkSettings.ini
+MDK-ARM/EventRecorderStub.scvd
