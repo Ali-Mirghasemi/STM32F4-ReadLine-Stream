@@ -1,0 +1,6 @@
+*.dbgconf
+*.d
+*.o
+*.crf
+MDK-ARM/STM32F4-ReadLine/
+*.MrCrazy
