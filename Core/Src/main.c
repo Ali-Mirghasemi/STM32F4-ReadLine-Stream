@@ -69,8 +69,8 @@ void SystemClock_Config(void);
 void UARTStream_stopReceiveDMA(UARTStream* stream);
 void UARTStream_stopTransmitDMA(UARTStream* stream);
 Stream_LenType UARTStream_checkReceivedBytes(IStream* stream);
-void UARTStream_receive(IStream* stream, uint8_t* buff, Stream_LenType len);
-void UARTStream_transmit(OStream* stream, uint8_t* buff, Stream_LenType len);
+Stream_Result UARTStream_receive(IStream* stream, uint8_t* buff, Stream_LenType len);
+Stream_Result UARTStream_transmit(OStream* stream, uint8_t* buff, Stream_LenType len);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -238,15 +238,17 @@ Stream_LenType UARTStream_checkReceivedBytes(IStream* stream) {
 	UARTStream* uartStream = (UARTStream*) IStream_getArgs(stream);
 	return IStream_incomingBytes(stream) - uartStream->RxDMA->Instance->NDTR;
 }
-void UARTStream_receive(IStream* stream, uint8_t* buff, Stream_LenType len) {
+Stream_Result UARTStream_receive(IStream* stream, uint8_t* buff, Stream_LenType len) {
 	UARTStream* uartStream = (UARTStream*) IStream_getArgs(stream);
 	UARTStream_stopReceiveDMA(uartStream);
 	HAL_UART_Receive_DMA(uartStream->HUART, buff, len);
+  return Stream_Ok;
 }
-void UARTStream_transmit(OStream* stream, uint8_t* buff, Stream_LenType len) {
+Stream_Result UARTStream_transmit(OStream* stream, uint8_t* buff, Stream_LenType len) {
 	UARTStream* uartStream = (UARTStream*) OStream_getArgs(stream);
 	UARTStream_stopTransmitDMA(uartStream);
 	HAL_UART_Transmit_DMA(uartStream->HUART, buff, len);
+  return Stream_Ok;
 }
 
 void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart) {
